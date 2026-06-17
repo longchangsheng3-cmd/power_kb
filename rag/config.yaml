@@ -1,0 +1,9 @@
+docs_dir: docs
+persist_dir: rag/db
+collection_name: standby_power_kb
+embedding_model: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+chunk:
+  max_chars: 900
+  overlap_chars: 120
+query:
+  top_k: 5
