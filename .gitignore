@@ -16,4 +16,5 @@ outputs/summaries/*
 !inputs/logs/.gitkeep
 !inputs/reports/.gitkeep
 !outputs/analysis/.gitkeep
+!outputs/analysis/README.md
 !outputs/summaries/.gitkeep

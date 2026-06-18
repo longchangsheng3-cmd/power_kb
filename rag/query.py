@@ -85,7 +85,7 @@ def main() -> None:
     print(output)
 
     if not args.no_save:
-        output_path = args.output or DEFAULT_OUTPUT
+        output_path = (args.output or DEFAULT_OUTPUT).resolve()
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(output, encoding="utf-8")
         print(f"Saved query result to {output_path.relative_to(ROOT)}")
