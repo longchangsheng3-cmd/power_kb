@@ -3,6 +3,7 @@ __pycache__/
 .venv/
 venv/
 .env
+*.tmp.md
 
 rag/db/
 rag/index/
