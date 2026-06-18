@@ -188,6 +188,56 @@ python scripts/create_analysis_report.py `
 
 其中 `analysis_context.md` 可直接复制给 Claude Code，用于输出最终分析报告；`analysis_report.md` 是本地生成的标准报告草稿。
 
+## V0.3.1 结构化结论与人工确认入库
+
+### 当前能力
+
+- 在 V0.3 日志提取基础上，自动聚合 Top active wake locks、Pending Wakeup Sources、SPM wakeup reasons 和 USB/Type-C/Charging 证据。
+- 将日志、RAG 知识和报告模板整理成 Claude Code 分析上下文。
+- 生成结构化分析结论，包含可能原因排序、关键依据、下一步验证和人工复核清单。
+- 人工确认结论正确后，将结论沉淀为 `docs/cases/` 案例。
+- 重新执行 `python rag/ingest.py` 后，新案例会进入本地向量存储库。
+
+### 分析闭环
+
+1. 运行日志提取和 RAG 检索。
+2. 生成 `analysis_context.md`，交给 Claude Code 分析。
+3. 生成或修订 `structured_conclusion.md`。
+4. 人工复核结论是否正确。
+5. 确认后执行 `scripts/confirm_case.py --confirmed` 入库。
+6. 执行 `python rag/ingest.py` 更新向量库。
+
+### 结构化结论生成
+
+```powershell
+python scripts/generate_structured_conclusion.py `
+  --issue "待机耗电高，分析 kernel log 中可能原因" `
+  --log-extract outputs/analysis/real_log_extract.md `
+  --rag-result outputs/analysis/real_rag_result.md `
+  --output outputs/analysis/structured_conclusion.md `
+  --case-hint
+```
+
+### 人工确认后入库
+
+只有人工确认结论正确后，才执行：
+
+```powershell
+python scripts/confirm_case.py `
+  --confirmed `
+  --title "待机耗电高 - USB wake lock 长时间活跃" `
+  --issue "待机耗电高，kernel log 显示 USB wake lock 长时间 active" `
+  --conclusion outputs/analysis/structured_conclusion.md `
+  --source-log inputs/logs/kernel_log_12__2026_0617_174148 `
+  --reviewer "longchangsheng"
+```
+
+然后更新本地向量库：
+
+```powershell
+python rag/ingest.py
+```
+
 ## 迭代路线
 
 - V0.1：知识库骨架、基础文档、案例模板、Claude Code 工作流。

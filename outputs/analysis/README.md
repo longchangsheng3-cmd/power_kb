@@ -9,6 +9,7 @@
 | `log_extract.md` | `scripts/analyze_log.py` | 日志关键行和分类统计 |
 | `rag_result.md` | `rag/query.py` | RAG 检索结果 |
 | `analysis_context.md` | `scripts/build_analysis_context.py` | 可复制给 Claude Code 的完整分析上下文 |
+| `structured_conclusion.md` | `scripts/generate_structured_conclusion.py` | 结构化分析结论，供人工复核 |
 | `analysis_report.md` | `scripts/create_analysis_report.py` | 标准分析报告草稿 |
 
 ## 建议
