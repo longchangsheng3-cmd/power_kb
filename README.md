@@ -238,6 +238,48 @@ python scripts/confirm_case.py `
 python rag/ingest.py
 ```
 
+## V0.4 案例自动生成草稿
+
+### 当前能力
+
+- 从 V0.3.1 的日志提取、RAG 结果和结构化结论自动生成案例草稿。
+- 草稿包含 frontmatter、基本信息、关键证据、分析过程、根因候选、优化方案候选、验证建议和关联知识。
+- 支持草稿质量检查，提示缺失章节、`待补充` 项和入库前待确认项。
+- 人工编辑并确认后，可通过 `scripts/confirm_case.py --from-draft` 入库。
+- 入库后执行 `python rag/ingest.py`，案例进入本地向量库。
+
+### 生成案例草稿
+
+```powershell
+python scripts/generate_case_draft.py `
+  --title "待机耗电高 - USB wake lock 长时间活跃" `
+  --issue "待机耗电高，kernel log 显示 USB wake lock 长时间 active" `
+  --source-log inputs/logs/kernel_log_12__2026_0617_174148 `
+  --log-extract outputs/analysis/run_v031_log_extract.md `
+  --rag-result outputs/analysis/run_v031_rag_result.md `
+  --conclusion outputs/analysis/run_v031_structured_conclusion.md `
+  --platform "待补充" `
+  --scenario "待机/锁屏场景" `
+  --output outputs/analysis/case_draft.md
+```
+
+### 检查草稿质量
+
+```powershell
+python scripts/review_case_draft.py outputs/analysis/case_draft.md
+```
+
+### 人工确认后从草稿入库
+
+```powershell
+python scripts/confirm_case.py `
+  --confirmed `
+  --from-draft outputs/analysis/case_draft.md `
+  --reviewer "longchangsheng"
+
+python rag/ingest.py
+```
+
 ## 迭代路线
 
 - V0.1：知识库骨架、基础文档、案例模板、Claude Code 工作流。

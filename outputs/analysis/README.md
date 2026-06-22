@@ -10,6 +10,7 @@
 | `rag_result.md` | `rag/query.py` | RAG 检索结果 |
 | `analysis_context.md` | `scripts/build_analysis_context.py` | 可复制给 Claude Code 的完整分析上下文 |
 | `structured_conclusion.md` | `scripts/generate_structured_conclusion.py` | 结构化分析结论，供人工复核 |
+| `case_draft.md` | `scripts/generate_case_draft.py` | 可编辑案例草稿，人工确认后入库 |
 | `analysis_report.md` | `scripts/create_analysis_report.py` | 标准分析报告草稿 |
 
 ## 建议
